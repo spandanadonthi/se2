@@ -1,0 +1,25 @@
+node {
+    stage('Checkout') {
+        git branch: 'main', url: 'https://github.com/spandanadonthi/se2.git'
+    }
+
+    stage('Compile') {
+        echo "Compiling source code..."
+        bat 'mvn compile'
+    }
+
+    stage('Test') {
+        echo "Running tests..."
+        bat 'mvn test'
+    }
+
+    stage('Package') {
+        echo "Packaging JAR..."
+        bat 'mvn package'
+    }
+
+    stage('Archive Artifact') {
+        echo "Saving packaged JAR..."
+        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    }
+}
